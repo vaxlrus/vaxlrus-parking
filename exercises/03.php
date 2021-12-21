@@ -7,3 +7,5 @@ use App\Parking;
 $parking = new Parking(40);
 
 var_dump($parking);
+
+?>

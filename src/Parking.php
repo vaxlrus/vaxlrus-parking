@@ -6,8 +6,8 @@ class Parking
 {
     private int $capacity;
 
-    public function __construct(int $availableSpace)
+    public function __construct(int $capacity)
     {
-        $this->capacity = $availableSpace;
+        $this->capacity = $capacity;
     }
 }
