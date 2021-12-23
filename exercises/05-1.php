@@ -14,9 +14,6 @@ $auto2 = new Auto();
 $auto3 = new Auto();
 $auto4 = new Auto();
 
-// Отображение количества свободных мест
-var_dump($parking->getAvailableSpace());
-
 // Парковка 4 автомобилей
 var_dump($parking->parkAuto($auto1));
 var_dump($parking->parkAuto($auto2));

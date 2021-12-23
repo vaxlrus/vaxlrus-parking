@@ -4,61 +4,40 @@ namespace App;
 
 class Parking
 {
-    private int $capacity; // Общая вместимость паркинга
-    private int $availableSpace; // Количество cвободных мест
-    private array $parking; // Хранилище автомобилей
+    private int $parkingCapacity; // Общая вместимость паркинга
+    private array $carStorage = []; // Хранилище автомобилей
 
-    public function __construct(int $capacity)
-    {
-        // Проверить аргумент на соответствие правилам создания парковки
-        $this->assertCapacityIsValid($capacity);
-
-        // Задать вместимость парковки
-        $this->capacity = $capacity;
-
-        // Задать количество свободных мест на парковке равным количеству мест на парковке
-        $this->availableSpace = $capacity;
-    }
-
-    // Проверка соответствия значения вместимости парковки
-    private function assertCapacityIsValid(int $capacity): void
+    public function __construct(int $parkingCapacity)
     {
         // Если парковка создается с нулевым пространством
-        if ($capacity == 0)
+        if ($parkingCapacity == 0)
         {
             throw new \DomainException('Парковка не может быть создана без мест');
         }
 
         // Если парковка создается с отрицательным пространством
-        if ($capacity < 0)
+        if ($parkingCapacity < 0)
         {
             throw new \DomainException('Парковка не может иметь отрицательную вместимость');
         }
+
+        // Задать вместимость парковки
+        $this->parkingCapacity = $parkingCapacity;
     }
 
     // Метод парковки авто
     public function parkAuto(Auto $auto): bool
     {
-        // Если парковка полная, вернуть false
-        if ($this->assertParkingIsFull()) return false;
+        // Если количество занятых мест равно максимальному на парковке, то она переполнена: return false
+        if (count($this->carStorage) == $this->parkingCapacity)
+        {
+            return false;
+        }
 
         // Добавить авто на парковку
-        $this->parking[] = $auto;
-        // Уменьшить количество свободных мест
-        $this->availableSpace--;
+        $this->carStorage[] = $auto;
 
         return true;
     }
 
-    // Метод проверки заполненности парковки
-    private function assertParkingIsFull(): bool
-    {
-        return ($this->availableSpace == 0);
-    }
-
-    // Получить количество свободных мест
-    public function getAvailableSpace()
-    {
-        return $this->availableSpace;
-    }
 }
