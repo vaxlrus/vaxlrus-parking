@@ -24,10 +24,5 @@ class Parking
         {
             throw new \DomainException('Парковка не может иметь отрицательную вместимость');
         }
-
-        if (gettype($capacity) != 'integer')
-        {
-            throw new \DomainException('Вместимость парковки можно задавать только целочисленным типом данных');
-        }
     }
 }
