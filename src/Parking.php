@@ -4,25 +4,40 @@ namespace App;
 
 class Parking
 {
-    private int $capacity;
+    private int $totalCapacity; // Общая вместимость паркинга
+    private array $carStorage = []; // Хранилище автомобилей
 
-    public function __construct(int $capacity)
+    public function __construct(int $totalCapacity)
     {
-        $this->assertCapacityIsValid($capacity);
-
-        $this->capacity = $capacity;
-    }
-
-    private function assertCapacityIsValid(int $capacity): void
-    {
-        if ($capacity == 0)
+        // Если парковка создается с нулевым пространством
+        if ($totalCapacity == 0)
         {
             throw new \DomainException('Парковка не может быть создана без мест');
         }
 
-        if ($capacity < 0)
+        // Если парковка создается с отрицательным пространством
+        if ($totalCapacity < 0)
         {
             throw new \DomainException('Парковка не может иметь отрицательную вместимость');
         }
+
+        // Задать вместимость парковки
+        $this->$totalCapacity = $totalCapacity;
     }
+
+    // Метод парковки авто
+    public function park(Auto $auto): bool
+    {
+        // Если количество занятых мест равно максимальному на парковке, то она переполнена: return false
+        if (count($this->carStorage) === $this->totalCapacity)
+        {
+            return false;
+        }
+
+        // Добавить авто на парковку
+        $this->carStorage[] = $auto;
+
+        return true;
+    }
+
 }
