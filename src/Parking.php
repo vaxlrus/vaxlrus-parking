@@ -26,7 +26,7 @@ class Parking
     }
 
     // Метод парковки авто
-    public function parkAuto(Auto $auto): bool
+    public function park(Auto $auto): bool
     {
         // Если количество занятых мест равно максимальному на парковке, то она переполнена: return false
         if (count($this->carStorage) === $this->totalCapacity)
