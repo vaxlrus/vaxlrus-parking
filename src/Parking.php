@@ -8,17 +8,12 @@ class Parking
 
     public function __construct(int $capacity)
     {
-        try
-        {
-            $this->parkingCreation($capacity);
-        }
-        catch (\DomainException $error)
-        {
-            echo $error->getMessage() . PHP_EOL;
-        }
+        $this->isCapacityValid($capacity);
+
+        $this->capacity = $capacity;
     }
 
-    private function parkingCreation(int $capacity)
+    private function isCapacityValid(int $capacity)
     {
         if ($capacity == 0)
         {
@@ -30,6 +25,9 @@ class Parking
             throw new \DomainException('Парковка не может иметь отрицательную вместимость');
         }
 
-        $this->capacity = $capacity;
+        if (gettype($capacity) != 'integer')
+        {
+            throw new \DomainException('Вместимость парковки можно задавать только целочисленным типом данных');
+        }
     }
 }
