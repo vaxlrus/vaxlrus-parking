@@ -29,7 +29,7 @@ class Parking
     public function parkAuto(Auto $auto): bool
     {
         // Если количество занятых мест равно максимальному на парковке, то она переполнена: return false
-        if (count($this->carStorage) == $this->totalCapacity)
+        if (count($this->carStorage) === $this->totalCapacity)
         {
             return false;
         }
