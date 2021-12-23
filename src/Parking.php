@@ -8,12 +8,12 @@ class Parking
 
     public function __construct(int $capacity)
     {
-        $this->isCapacityValid($capacity);
+        $this->assertCapacityIsValid($capacity);
 
         $this->capacity = $capacity;
     }
 
-    private function isCapacityValid(int $capacity)
+    private function assertCapacityIsValid(int $capacity): void
     {
         if ($capacity == 0)
         {
