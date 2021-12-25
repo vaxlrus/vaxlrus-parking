@@ -29,7 +29,7 @@ class Parking
     public function park(Vehicle $vehicle): void
     {
         // Если количество занятых мест равно максимальному на парковке, то она переполнена: return false
-        if (count($this->carStorage) === $this->totalCapacity)
+        if ($this->getFreeSpaceCount() === 0.0)
         {
             throw new \DomainException('Парковка переполнена');
         }
@@ -83,8 +83,17 @@ class Parking
     }
 
     // Определение количества свободных мест
-    public function getFreeSpaceCount(): int
+    public function getFreeSpaceCount(): float
     {
-        return $this->totalCapacity - count($this->carStorage);
+        // Посчитать суммарное количество занимаемых мест всеми ТС
+        $totalCount = 0.0;
+
+        foreach ($this->carStorage as $vehicle)
+        {
+            $totalCount += $vehicle->getSize();
+        }
+
+        // Вернуть разница между общим количествм мест и занимаемым в данный момент
+        return (float) $this->totalCapacity - (float) $totalCount;
     }
 }
