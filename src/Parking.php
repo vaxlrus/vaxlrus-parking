@@ -26,7 +26,7 @@ class Parking
     }
 
     // Парковка авто
-    public function park(Auto $auto): void
+    public function park(Vehicle $auto): void
     {
         // Если количество занятых мест равно максимальному на парковке, то она переполнена: return false
         if (count($this->carStorage) === $this->totalCapacity)
@@ -37,7 +37,7 @@ class Parking
         // Если на парковке уже существует авто с vin номер автомобиля который пытается запарковаться
         if ($this->assertVinIsExist($auto->getVin()))
         {
-            throw new \DomainException('На парковке уже существует авто с VIN номером вашего автомобиля. Парковка запрещена');
+            throw new \DomainException('На парковке уже существует авто с VIN номером вашего транспортного средства. Парковка запрещена');
         }
 
         // Добавить авто на парковку
@@ -50,7 +50,7 @@ class Parking
         // Если на парковке автомобиль так и не был найден, то выбросить исключение
         if (!$this->assertVinIsExist($vin))
         {
-            throw new \DomainException('Автомобиль не найден на парковке');
+            throw new \DomainException('Транспортное средство не найдено на парковке');
         }
 
         // Если автомобиль с указанным ВИН номером существует на парковке, то отпарковать его
@@ -80,5 +80,11 @@ class Parking
 
         // Если на парковке не был найден автомобиль с указанным VIN значит такого нет
         return false;
+    }
+
+    // Определение количества свободных мест
+    public function getFreeSpaceCount(): int
+    {
+        return $this->totalCapacity - count($this->carStorage);
     }
 }

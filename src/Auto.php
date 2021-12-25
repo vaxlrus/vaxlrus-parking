@@ -2,18 +2,6 @@
 
 namespace App;
 
-class Auto
+class Auto extends Vehicle
 {
-    private string $vin;
-
-    public function __construct(string $vin)
-    {
-        $this->vin = $vin;
-    }
-
-    // Получение vin номера
-    public function getVin(): string
-    {
-        return $this->vin;
-    }
 }
