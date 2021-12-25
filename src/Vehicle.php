@@ -2,9 +2,7 @@
 
 namespace App;
 
-use App\VehicleInterface;
-
-abstract class Vehicle implements VehicleInterface
+abstract class Vehicle
 {
     private string $vin;
 
@@ -17,5 +15,11 @@ abstract class Vehicle implements VehicleInterface
     public function getVin(): string
     {
         return $this->vin;
+    }
+
+    // Получение размера ТС
+    public function getSize(): float
+    {
+        return static::SIZE;
     }
 }
