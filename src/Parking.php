@@ -26,22 +26,22 @@ class Parking
     }
 
     // Парковка авто
-    public function park(Auto $auto): void
+    public function park(Vehicle $vehicle): void
     {
         // Если количество занятых мест равно максимальному на парковке, то она переполнена: return false
-        if (count($this->carStorage) === $this->totalCapacity)
+        if ($this->getFreeSpaceCount() === 0.0)
         {
             throw new \DomainException('Парковка переполнена');
         }
 
         // Если на парковке уже существует авто с vin номер автомобиля который пытается запарковаться
-        if ($this->assertVinIsExist($auto->getVin()))
+        if ($this->assertVinIsExist($vehicle->getVin()))
         {
-            throw new \DomainException('На парковке уже существует авто с VIN номером вашего автомобиля. Парковка запрещена');
+            throw new \DomainException('На парковке уже существует авто с VIN номером вашего транспортного средства. Парковка запрещена');
         }
 
         // Добавить авто на парковку
-        $this->carStorage[] = $auto;
+        $this->carStorage[] = $vehicle;
     }
 
     // Отпарковка авто
@@ -50,14 +50,14 @@ class Parking
         // Если на парковке автомобиль так и не был найден, то выбросить исключение
         if (!$this->assertVinIsExist($vin))
         {
-            throw new \DomainException('Автомобиль не найден на парковке');
+            throw new \DomainException('Транспортное средство не найдено на парковке');
         }
 
         // Если автомобиль с указанным ВИН номером существует на парковке, то отпарковать его
-        foreach ($this->carStorage as $key => $auto)
+        foreach ($this->carStorage as $key => $vehicle)
         {
             // Если вин номер автомобиля с парковки совпадает с переданным в метод
-            if ($auto->getVin() === $vin)
+            if ($vehicle->getVin() === $vin)
             {
                 // То удалить автомобиль с парковки
                 unset($this->carStorage[$key]);
@@ -80,5 +80,20 @@ class Parking
 
         // Если на парковке не был найден автомобиль с указанным VIN значит такого нет
         return false;
+    }
+
+    // Определение количества свободных мест
+    public function getFreeSpaceCount(): float
+    {
+        // Посчитать суммарное количество занимаемых мест всеми ТС
+        $totalCount = 0.0;
+
+        foreach ($this->carStorage as $vehicle)
+        {
+            $totalCount += $vehicle->getSize();
+        }
+
+        // Вернуть разница между общим количествм мест и занимаемым в данный момент
+        return (float) $this->totalCapacity - (float) $totalCount;
     }
 }
