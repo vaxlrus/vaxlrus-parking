@@ -1,8 +1,8 @@
 <?php
 
-namespace App;
+namespace App\Parking;
 
 class Truck extends Vehicle
 {
-    const SIZE = 2.0;
+    protected const SIZE = 2.0;
 }

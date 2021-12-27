@@ -1,8 +1,8 @@
 <?php
 
-namespace App;
+namespace App\Parking;
 
 class Motorcycle extends Vehicle
 {
-    const SIZE = 0.5;
+    protected const SIZE = 0.5;
 }
