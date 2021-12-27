@@ -1,6 +1,6 @@
 <?php
 
-namespace App;
+namespace App\Parking;
 
 abstract class Vehicle
 {
