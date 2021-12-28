@@ -18,10 +18,10 @@ class Api
     public function createParking(int $capacity): Parking
     {
         // Создать парковку
-        $parking = new Parking($capacity);
+        $parking = new Parking($capacity, $this->repo->nextId());
 
         // Сохранить парковку в файл
-        $this->repo->save($parking, $this->repo->nextId());
+        $this->repo->save($parking);
 
         return $parking;
     }
