@@ -5,10 +5,17 @@ namespace App\Parking;
 class Parking
 {
     private int $totalCapacity; // Общая вместимость паркинга
-    private array $carStorage = []; // Хранилище автомобилей
+    private array $carStorage = []; // Хранилище автомобилей\
+    private int $id; // Идентификатор парковки
 
-    public function __construct(int $totalCapacity)
+    public function __construct(int $totalCapacity, int $id)
     {
+        // Проверка идентификатора парковки
+        if ($id < 0)
+        {
+            throw new \DomainException('Идентификатор не может быть отрицательным');
+        }
+
         // Если парковка создается с нулевым или отрицательным пространством
         if ($totalCapacity <= 0)
         {
@@ -17,6 +24,9 @@ class Parking
 
         // Задать вместимость парковки
         $this->totalCapacity = $totalCapacity;
+
+        // Задать идентификатор
+        $this->id = $id;
     }
 
     // Парковка авто
@@ -89,5 +99,11 @@ class Parking
 
         // Вернуть разница между общим количествм мест и занимаемым в данный момент
         return (float) $this->totalCapacity - (float) $totalCount;
+    }
+
+    // Получить идентификатор парковки
+    public function getId(): int
+    {
+        return $this->id;
     }
 }

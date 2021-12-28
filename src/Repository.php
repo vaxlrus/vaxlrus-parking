@@ -15,18 +15,13 @@ class Repository
     }
 
     // Сохранение парковки в файл
-    public function save(Parking $parking, int $parkingId): void
+    public function save(Parking $parking): void
     {
-        if ($parking < 0)
-        {
-            throw new \DomainException('Идентификатор не может быть отрицательным');
-        }
-
         // Строка с данными парковки
         $str = serialize($parking);
 
         // Идентификатор парковки
-        $fileName = $this->path . '/' . $parkingId . '.txt';
+        $fileName = $this->path . '/' . $parking->getId() . '.txt';
 
         // Записать данные в файл
         file_put_contents($fileName, $str);
