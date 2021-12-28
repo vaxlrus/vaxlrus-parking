@@ -6,6 +6,7 @@ class Parking
 {
     private int $totalCapacity; // Общая вместимость паркинга
     private array $carStorage = []; // Хранилище автомобилей
+    private int $id; // Идентификатор парковки
 
     public function __construct(int $totalCapacity)
     {
@@ -95,5 +96,17 @@ class Parking
 
         // Вернуть разница между общим количествм мест и занимаемым в данный момент
         return (float) $this->totalCapacity - (float) $totalCount;
+    }
+
+    // Задать идентификатор парковки
+    public function setId(int $id): void
+    {
+        $this->id = $id;
+    }
+
+    // Получить парковку
+    public function getId(): int
+    {
+        return $this->id;
     }
 }
