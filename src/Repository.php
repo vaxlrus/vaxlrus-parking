@@ -87,7 +87,7 @@ class Repository
         else
         {
             // Старое значение
-            $nextId = file_get_contents($idVault);
+            $nextId = file_get_contents($idVault) + 1;
         }
 
         return $nextId;
