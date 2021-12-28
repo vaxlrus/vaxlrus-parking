@@ -17,6 +17,8 @@ class Api
     // Создание парковки
     public function createParking(int $capacity): Parking
     {
+        echo $this->repo->nextId();
+
         // Создать парковку
         $parking = new Parking($capacity, $this->repo->nextId());
 

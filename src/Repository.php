@@ -25,6 +25,9 @@ class Repository
 
         // Записать данные в файл
         file_put_contents($fileName, $str);
+
+        // Сохранить состояние нового ID
+        file_put_contents($this->path . '/' . $this->vaultName, $parking->getId());
     }
 
     // Получение парковки из файла
@@ -78,16 +81,18 @@ class Repository
         // Путь к файлу с хранилищем ID
         $idVault = $this->path . '/'. $this->vaultName;
 
-        // Если файл не существует
-        if (!file_exists($idVault))
+        // Старое значение
+        $nextId = file_get_contents($idVault);
+
+        // Если файл существует, но инициализируется пустой или файла не существует
+        if (!isset($nextId) OR !file_exists($idVault))
         {
             $nextId = 0;
         }
-        // Если файл существует то нужно считать данные с него
+        // Если файл существует и значение старое присутствовало
         else
         {
-            // Старое значение
-            $nextId = file_get_contents($idVault) + 1;
+            $nextId++;
         }
 
         return $nextId;
