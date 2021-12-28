@@ -6,21 +6,13 @@ use App\Api;
 use App\Repository;
 
 // Объект репозитория
-$repository = new Repository();
+$repository = new Repository(__DIR__ . '/../configs');
 
 // Объект API
-$api = new Api();
+$api = new Api($repository);
 
-// Объект парковки
+// Создать новую парковку
 $parking = $api->createParking(40);
-echo "Объект парковки в исходном виде\n";
-var_dump($parking);
-
-
-// Сохранение парковки
-$repository->save($parking);
-echo "Загрузка объекта из файла\n";
-var_dump($repository->load('0'));
 
 echo "Загрузка всех объектов из файлов. Представление в виде массива:\n";
 var_dump($repository->loadAll());
@@ -29,4 +21,4 @@ var_dump($repository->loadAll());
 $repository->removeParking(0);
 
 // Проверить есть ли такая парковка путем повторного удаления
-$repository->removeParking(0);
+//$repository->removeParking(2);

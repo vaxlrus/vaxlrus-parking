@@ -9,9 +9,9 @@ class Api
 {
     private Repository $repo;
 
-    public function __construct()
+    public function __construct(Repository $repo)
     {
-        $this->repo = new Repository();
+        $this->repo = $repo;
     }
 
     // Создание парковки
@@ -21,7 +21,7 @@ class Api
         $parking = new Parking($capacity);
 
         // Сохранить парковку в файл
-        $this->repo->save($parking);
+        $this->repo->save($parking, $this->repo->nextId());
 
         return $parking;
     }

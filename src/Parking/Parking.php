@@ -6,20 +6,13 @@ class Parking
 {
     private int $totalCapacity; // Общая вместимость паркинга
     private array $carStorage = []; // Хранилище автомобилей
-    private int $id; // Идентификатор парковки
 
     public function __construct(int $totalCapacity)
     {
-        // Если парковка создается с нулевым пространством
-        if ($totalCapacity == 0)
+        // Если парковка создается с нулевым или отрицательным пространством
+        if ($totalCapacity <= 0)
         {
-            throw new \DomainException('Парковка не может быть создана без мест');
-        }
-
-        // Если парковка создается с отрицательным пространством
-        if ($totalCapacity < 0)
-        {
-            throw new \DomainException('Парковка не может иметь отрицательную вместимость');
+            throw new \DomainException('Вместимость парковки может иметь только положительное значение');
         }
 
         // Задать вместимость парковки
@@ -96,17 +89,5 @@ class Parking
 
         // Вернуть разница между общим количествм мест и занимаемым в данный момент
         return (float) $this->totalCapacity - (float) $totalCount;
-    }
-
-    // Задать идентификатор парковки
-    public function setId(int $id): void
-    {
-        $this->id = $id;
-    }
-
-    // Получить парковку
-    public function getId(): int
-    {
-        return $this->id;
     }
 }

@@ -6,38 +6,30 @@ use App\Parking\Parking;
 
 class Repository
 {
-    // Путь для хранения файлов
-    private string $path = __DIR__ . '/../configs/';
+    private string $path;
+    private string $vaultName = 'id.txt';
+
+    public function __construct(string $configPath)
+    {
+        $this->path = $configPath;
+    }
 
     // Сохранение парковки в файл
-    public function save(Parking $parking): void
+    public function save(Parking $parking, int $parkingId): void
     {
-        // Задать идентификатор для парковки
-        $newId = $this->generateId();
-
-        // Присвоить парковке этот ID
-        $parking->setId($newId);
+        if ($parking < 0)
+        {
+            throw new \DomainException('Идентификатор не может быть отрицательным');
+        }
 
         // Строка с данными парковки
         $str = serialize($parking);
 
         // Идентификатор парковки
-        $fileName = $this->path . '/' . $newId . '.txt';
+        $fileName = $this->path . '/' . $parkingId . '.txt';
 
-        // Открытие файла хранилища
-        $buffer = fopen($fileName, 'w+');
-
-        // Заменить файл на новое состояние
-        $state = fwrite($buffer, $str);
-
-        // Если по каким-то причинам данные в файл не были записаны
-        if (!$state)
-        {
-            throw new \DomainException('Невозможно записать данные в файл хранилища');
-        }
-
-        // Завершить работу с файлом
-        fclose($buffer);
+        // Записать данные в файл
+        file_put_contents($fileName, $str);
     }
 
     // Получение парковки из файла
@@ -50,7 +42,7 @@ class Repository
         }
 
         // Путь к файлу
-        $fileName = $this->path . $parkingId . '.txt';
+        $fileName = $this->path . '/' . $parkingId . '.txt';
 
         // Проверка на наличие файла
         if (!file_exists($fileName))
@@ -60,12 +52,6 @@ class Repository
 
         // Открыть временно файл для чтения
         $state = file_get_contents($fileName);
-
-        // Если по каким-то причинам файл не удалось открыть
-        if (!$state)
-        {
-            throw new \DomainException('Не удалось открыть файл парковки');
-        }
 
         // Вернуть файл в человеко-читаемый вид
         return unserialize($state);
@@ -91,42 +77,25 @@ class Repository
     }
 
     // Генератор названий файлов
-    private function generateId(): int
+    // TODO: добавить проверку на список файлов ибо в id.txt может быть "2", а в каталоге пусто, нужно сбросить состояние
+    public function nextId(): int
     {
         // Путь к файлу с хранилищем ID
-        $idVault = $this->path . 'id.txt';
+        $idVault = $this->path . '/'. $this->vaultName;
 
         // Если файл не существует
         if (!file_exists($idVault))
         {
-            $lastId = 0;
+            $nextId = 0;
         }
         // Если файл существует то нужно считать данные с него
         else
         {
             // Старое значение
-            $lastId = file_get_contents($idVault);
-
-            // Инкрементировать новое значение
-            $lastId++;
+            $nextId = file_get_contents($idVault);
         }
 
-        // Так как файла не существует или если существует, то все равно на перезапись, флаг "с" создаст его или откроет
-        $stream = fopen($idVault, 'w+');
-
-        // Заменить файл на новое состояние
-        $state = fwrite($stream, $lastId);
-
-        // Если по каким-то причинам данные в файл не были записаны
-        if (!$state)
-        {
-            throw new \DomainException('Невозможно записать данные в файл хранилища');
-        }
-
-        // Завершить работу с файлом
-        fclose($stream);
-
-        return $lastId;
+        return $nextId;
     }
 
     // Получение списка файлов из папки хранилища
@@ -162,6 +131,6 @@ class Repository
         }
 
         // Удалить файл
-        unlink($this->path . $parkingId . '.txt');
+        unlink($this->path . '/' . $parkingId . '.txt');
     }
 }
