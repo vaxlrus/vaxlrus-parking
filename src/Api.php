@@ -48,15 +48,8 @@ class Api
         // Если объект не является типом класса
         $classType = "App\\Parking\\{$vehicleType}";
 
-        // Типы авто
-        $vehicleTypes = [
-            'Auto',
-            'Truck',
-            'Motorcycle',
-        ];
-
-        //        if (!class_exists($classType) && !is_subclass_of($classType, 'App\Vehicle'))
-        if (!in_array($vehicleType, $vehicleTypes))
+        // Если переданный тип ТС не является дочерним классом абстрактного класса Vehicle, то выдать исключение
+        if (!class_exists($classType) && !is_subclass_of($classType, 'App\Vehicle'))
         {
             throw new \DomainException('Объект типа ' . $vehicleType . ' не является транспортным средством');
         }
