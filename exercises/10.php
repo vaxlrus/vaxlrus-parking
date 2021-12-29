@@ -16,7 +16,8 @@ $api = new Api($repository);
 
 // Поставить ТС на парковку
 //var_dump($api->parkVehicle(2, 'Truck', '1FA6P8TH8F5351794'));
-var_dump($api->parkVehicle(2, 'Truck', '2FA6P8TH8F5351794'));
+var_dump($api->parkVehicle(2, 'Auto', '3FA6P8TH8F5351794'));
+var_dump($api->parkVehicle(2, 'Motorcycle', '4FA6P8TH8F5351794'));
 
 // Получить конкретную парковку
 var_dump($api->getParking(2));
