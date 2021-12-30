@@ -5,6 +5,7 @@ namespace App;
 use App\Parking\Parking;
 use App\Repository;
 use App\Parking\Vehicle;
+use App\ApiResponse;
 
 class Api
 {
