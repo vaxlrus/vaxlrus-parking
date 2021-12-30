@@ -6,10 +6,13 @@ use App\Parking\Parking;
 
 class ApiResponse
 {
-    
-    // Единственный метод который возвращает ответ в виде массива
-    public function send($apiResponse): array
+    private $apiResponse;
+
+    public function __construct($apiResponse)
     {
+        $this->apiResponse = $apiResponse;
+
+        // Отправить ответ
         $result = null;
 
         // Если поступил объект
