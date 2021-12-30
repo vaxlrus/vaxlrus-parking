@@ -11,13 +11,14 @@ class Api
 {
     private Repository $repo;
 
-    public function __construct(Repository $repo)
+    public function __construct(Repository $repo, ApiResponse $apiResponse)
     {
         $this->repo = $repo;
+        $this->apiResponse = $apiResponse;
     }
 
     // Создание парковки
-    public function createParking(int $capacity): Parking
+    public function createParking(int $capacity): array
     {
         // Создать парковку
         $parking = new Parking($capacity, $this->repo->nextId());
@@ -25,7 +26,7 @@ class Api
         // Сохранить парковку в файл
         $this->repo->save($parking);
 
-        return $parking;
+        return $this->apiResponse->send($parking);
     }
 
     // Получить все парковки
@@ -35,13 +36,13 @@ class Api
     }
 
     // Получить конкретную парковку
-    public function getParking(int $id): Parking
+    public function getParking(int $id): array
     {
-        return $this->repo->load($id);
+        return $this->apiResponse->send($this->repo->load($id));
     }
 
     // Запарковать авто
-    public function parkVehicle(int $parkingId, string $vehicleType, string $vin): Parking
+    public function parkVehicle(int $parkingId, string $vehicleType, string $vin): array
     {
         // Загрузить объект парковки
         $parking = $this->repo->load($parkingId);
@@ -64,11 +65,11 @@ class Api
         // Сохранить состояние
         $this->repo->save($parking);
 
-        return $parking;
+        return $this->apiResponse->send($parking);
     }
 
     // Отпарковать авто
-    public function unparkVehicle(int $parkingId, string $vin): Parking
+    public function unparkVehicle(int $parkingId, string $vin): array
     {
         // Загрузить парковку
         $parking = $this->repo->load($parkingId);
@@ -79,11 +80,11 @@ class Api
         // Сохранить состояние
         $this->repo->save($parking);
 
-        return $parking;
+        return $this->apiResponse->send($parking);
     }
 
     // Удаление парковки
-    public function removeParking(int $parkingId): Parking
+    public function removeParking(int $parkingId): array
     {
         // Загрузить объект парковки
         $parking = $this->repo->load($parkingId);
@@ -91,6 +92,6 @@ class Api
         // Удалить эту парковку
         $this->repo->removeParking($parkingId);
 
-        return $parking;
+        return $this->apiResponse->send($parking);
     }
 }

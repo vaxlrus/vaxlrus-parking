@@ -8,7 +8,7 @@ class ApiResponse
 {
     
     // Единственный метод который возвращает ответ в виде массива
-    public function sendResponse($apiResponse): array
+    public function send($apiResponse): array
     {
         $result = null;
 
