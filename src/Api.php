@@ -19,16 +19,13 @@ class Api
     // Создание парковки
     public function createParking(int $capacity): ApiResponse
     {
-        try
-        {
+        try {
             // Создать парковку
             $parking = new Parking($capacity, $this->repo->nextId());
 
             // Сохранить парковку в файл
             $this->repo->save($parking);
-        }
-        catch (\DomainException $error)
-        {
+        } catch (\DomainException $error) {
             throw new \App\ApiException($error->getMessage(), $error);
         }
 
@@ -39,12 +36,9 @@ class Api
     public function getAllParkings(): ApiResponse
     {
         // Если ответ пустой или с ошибками по какой-то причине
-        try
-        {
+        try {
             $result = $this->repo->loadAll();
-        }
-        catch (\DomainException $error)
-        {
+        } catch (\DomainException $error) {
             throw new \App\ApiException($error->getMessage(), $error);
         }
 
@@ -54,12 +48,9 @@ class Api
     // Получить конкретную парковку
     public function getParking(int $id): ApiResponse
     {
-        try
-        {
+        try {
             $result = $this->repo->load($id);
-        }
-        catch (\DomainException $error)
-        {
+        } catch (\DomainException $error) {
             throw new \App\ApiException($error->getMessage(), $error);
         }
 
@@ -69,8 +60,7 @@ class Api
     // Запарковать авто
     public function parkVehicle(int $parkingId, string $vehicleType, string $vin): ApiResponse
     {
-        try
-        {
+        try {
             // Загрузить объект парковки
             $parking = $this->repo->load($parkingId);
 
@@ -78,8 +68,7 @@ class Api
             $classType = "App\\Parking\\{$vehicleType}";
 
             // Если переданный тип ТС не является дочерним классом абстрактного класса Vehicle, то выдать исключение
-            if (!class_exists($classType) OR !is_subclass_of($classType, Vehicle::class))
-            {
+            if (!class_exists($classType) or !is_subclass_of($classType, Vehicle::class)) {
                 throw new \DomainException('Объект типа ' . $vehicleType . ' не является транспортным средством');
             }
 
@@ -91,9 +80,7 @@ class Api
 
             // Сохранить состояние
             $this->repo->save($parking);
-        }
-        catch (\DomainException $error)
-        {
+        } catch (\DomainException $error) {
             throw new \App\ApiException($error->getMessage(), $error);
         }
 
@@ -103,8 +90,7 @@ class Api
     // Отпарковать авто
     public function unparkVehicle(int $parkingId, string $vin): ApiResponse
     {
-        try
-        {
+        try {
             // Загрузить парковку
             $parking = $this->repo->load($parkingId);
 
@@ -113,9 +99,7 @@ class Api
 
             // Сохранить состояние
             $this->repo->save($parking);
-        }
-        catch (\DomainException $error)
-        {
+        } catch (\DomainException $error) {
             throw new \App\ApiException($error->getMessage(), $error);
         }
 
@@ -125,16 +109,13 @@ class Api
     // Удаление парковки
     public function removeParking(int $parkingId): ApiResponse
     {
-        try
-        {
-        // Загрузить объект парковки
-        $parking = $this->repo->load($parkingId);
+        try {
+            // Загрузить объект парковки
+            $parking = $this->repo->load($parkingId);
 
-        // Удалить эту парковку
-        $this->repo->removeParking($parkingId);
-        }
-        catch (\DomainException $error)
-        {
+            // Удалить эту парковку
+            $this->repo->removeParking($parkingId);
+        } catch (\DomainException $error) {
             throw new \App\ApiException($error->getMessage(), $error);
         }
 
