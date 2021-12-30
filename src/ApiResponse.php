@@ -6,22 +6,28 @@ use App\Parking\Parking;
 
 class ApiResponse
 {
-    
-    // Единственный метод который возвращает ответ в виде массива
-    public function send($apiResponse): array
+    private $apiResponse;
+
+    public function __construct($apiResponse)
     {
+        $this->apiResponse = $apiResponse;
+    }
+
+    public function getData(): array
+    {
+        // Отправить ответ
         $result = null;
 
         // Если поступил объект
-        if (is_object($apiResponse))
+        if (is_object($this->apiResponse))
         {
-            $result = $this->convertObjectToArray($apiResponse);
+            $result = $this->convertObjectToArray($this->apiResponse);
         }
 
         // Если поступил массив
-        if (is_array($apiResponse))
+        if (is_array($this->apiResponse))
         {
-            $result = $this->convertArrayToArray($apiResponse);
+            $result = $this->convertArrayToArray($this->apiResponse);
         }
 
         // Отослать ответ
