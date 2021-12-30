@@ -22,4 +22,10 @@ abstract class Vehicle
     {
         return static::SIZE;
     }
+
+    // Получить тип ТС
+    public function getVehicleType()
+    {
+        return static::class;
+    }
 }

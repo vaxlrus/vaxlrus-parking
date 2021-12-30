@@ -5,7 +5,7 @@ namespace App\Parking;
 class Parking
 {
     private int $totalCapacity; // Общая вместимость паркинга
-    private array $carStorage = []; // Хранилище автомобилей\
+    private array $carStorage = []; // Хранилище автомобилей
     private int $id; // Идентификатор парковки
 
     public function __construct(int $totalCapacity, int $id)
@@ -101,9 +101,21 @@ class Parking
         return (float) $this->totalCapacity - (float) $totalCount;
     }
 
+    // Получение вместимости парковки
+    public function getCapacity(): int
+    {
+        return $this->totalCapacity;
+    }
+
     // Получить идентификатор парковки
     public function getId(): int
     {
         return $this->id;
+    }
+
+    // Получить список припаркованных ТС
+    public function getParkedVehicles(): array
+    {
+        return $this->carStorage;
     }
 }
