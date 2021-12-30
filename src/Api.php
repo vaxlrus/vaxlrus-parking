@@ -26,7 +26,7 @@ class Api
             // Сохранить парковку в файл
             $this->repo->save($parking);
         } catch (\DomainException $error) {
-            throw new \App\ApiException($error->getMessage(), $error);
+            throw new \App\ApiException($error);
         }
 
         return new ApiResponse($parking);
@@ -39,7 +39,7 @@ class Api
         try {
             $result = $this->repo->loadAll();
         } catch (\DomainException $error) {
-            throw new \App\ApiException($error->getMessage(), $error);
+            throw new \App\ApiException($error);
         }
 
         return new ApiResponse($result);
@@ -51,7 +51,7 @@ class Api
         try {
             $result = $this->repo->load($id);
         } catch (\DomainException $error) {
-            throw new \App\ApiException($error->getMessage(), $error);
+            throw new \App\ApiException($error);
         }
 
         return new ApiResponse($result);
@@ -81,7 +81,7 @@ class Api
             // Сохранить состояние
             $this->repo->save($parking);
         } catch (\DomainException $error) {
-            throw new \App\ApiException($error->getMessage(), $error);
+            throw new \App\ApiException($error);
         }
 
         return new ApiResponse($parking);
@@ -100,7 +100,7 @@ class Api
             // Сохранить состояние
             $this->repo->save($parking);
         } catch (\DomainException $error) {
-            throw new \App\ApiException($error->getMessage(), $error);
+            throw new \App\ApiException($error);
         }
 
         return new ApiResponse($parking);
@@ -116,7 +116,7 @@ class Api
             // Удалить эту парковку
             $this->repo->removeParking($parkingId);
         } catch (\DomainException $error) {
-            throw new \App\ApiException($error->getMessage(), $error);
+            throw new \App\ApiException($error);
         }
 
         return new ApiResponse($parking);
