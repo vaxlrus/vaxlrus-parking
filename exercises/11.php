@@ -12,8 +12,12 @@ $repository = new Repository(__DIR__ . '/../configs');
 $api = new Api($repository);
 
 //var_dump($api->getParking(3));
-var_dump($api->removeParking(1));
+//var_dump($api->removeParking(1));
 //var_dump($api->unparkVehicle(3, '111111111'));
 //var_dump($api->parkVehicle(4, 'Auto','2222222222'));
 //var_dump($api->getAllParkings());
 //var_dump($api->createParking(10));
+
+$response = $api->createParking(10);
+
+var_dump($response->getData());
