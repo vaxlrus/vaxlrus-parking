@@ -33,23 +33,28 @@ else
 $needle_method = array_shift($argv);
 
 // Маршрутизация по методам
-foreach ($methods_list as $method)
-{
-    // Если не найден запрашиваемый метод среди доступных
-    if ($method === $needle_method)
-    {
-        try
-        {
-            $response = call_user_func_array(array($api, $needle_method), $argv);
-            var_dump(json_encode($response->getData()));
-            exit();
-        }
-        catch (ApiException $error)
-        {
-            echo $error->getMessage();
+try {
+    foreach ($methods_list as $method) {
+        // Если не найден запрашиваемый метод среди доступных
+        if ($method === $needle_method) {
+            try {
+                $response = call_user_func_array(array($api, $needle_method), $argv);
+                var_dump(json_encode($response->getData()));
+                exit();
+            } catch (ApiException $error) {
+                echo $error->getMessage();
+                exit();
+            } catch (ArgumentCountError $error) {
+                echo "Недостаточно аргументов для вызова функции";
+            }
             exit();
         }
     }
+
+    throw new Throwable('Запрашиваемый метод не найден в API');
+}
+catch (Throwable $error)
+{
+    echo $error->getMessage();
 }
 
-throw new Throwable('Запрашиваемый метод не найден в API');
